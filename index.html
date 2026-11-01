@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Para Mi Nana Hermosa! ✨</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: float 5s ease-in-out 1.5s infinite;
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 3s ease-in-out infinite;
+    }
+
+    /* Flip Card Styles */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fdf2f8;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f472b6;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-50 via-purple-50 to-amber-50 min-h-screen text-slate-800 relative overflow-x-hidden">
+
+  <!-- Elementos Decorativos de Fondo -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-10 -left-10 w-72 h-72 bg-pink-300/30 rounded-full blur-3xl animate-pulse-subtle"></div>
+    <div class="absolute top-1/3 -right-10 w-96 h-96 bg-purple-300/30 rounded-full blur-3xl animate-pulse-subtle" style="animation-delay: 1s;"></div>
+    <div class="absolute -bottom-10 left-1/4 w-80 h-80 bg-amber-300/30 rounded-full blur-3xl animate-pulse-subtle" style="animation-delay: 2s;"></div>
+  </div>
+
+  <!-- Barra de Navegación -->
+  <nav class="sticky top-0 z-40 backdrop-blur-md bg-white/70 border-b border-pink-100 px-4 py-3 transition-all duration-300">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-2 font-bold text-lg text-pink-600">
+        <i data-lucide="sparkles" class="w-5 h-5 fill-pink-400"></i>
+        <span>Besties Forever ✨</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="triggerGlobalConfetti()" class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 hover:bg-pink-200 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow-sm active:scale-95">
+          <i data-lucide="party-popper" class="w-4 h-4"></i>
+          <span>¡Celebrar!</span>
+        </button>
+        <button onclick="openLetterModal()" class="px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition flex items-center gap-1.5 active:scale-95">
+          <i data-lucide="mail-heart" class="w-4 h-4"></i>
+          <span>Carta Secreta</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="relative z-10 max-w-5xl mx-auto px-4 py-8 space-y-16">
+
+    <!-- HERO SECTION -->
+    <section class="text-center py-12 sm:py-16 relative">
+      <div class="hidden sm:block absolute top-4 left-8 animate-float text-pink-400 opacity-70">
+        <i data-lucide="heart" class="w-8 h-8 fill-pink-300"></i>
+      </div>
+      <div class="hidden sm:block absolute top-12 right-12 animate-float-delayed text-purple-400 opacity-70">
+        <i data-lucide="smile" class="w-10 h-10"></i>
+      </div>
+      <div class="hidden sm:block absolute bottom-4 left-1/6 animate-float-delayed text-amber-400 opacity-70">
+        <i data-lucide="sun" class="w-8 h-8"></i>
+      </div>
+
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-pink-200 text-pink-600 text-xs sm:text-sm font-bold shadow-sm mb-6 animate-bounce">
+        <i data-lucide="crown" class="w-4 h-4 text-amber-500"></i>
+        <span>Página Oficial de Nuestra Amistad</span>
+      </div>
+      
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-tight mb-4">
+        ¡Hola, mi <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">Nana</span> hermosa! 💕
+      </h1>
+      
+      <p class="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto font-medium mb-8">
+        Hice este pequeño rincón en internet solo para recordarte lo increíble que eres y lo mucho que valoro cada risa, locura y momento a tu lado.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <button onclick="scrollToSection('gallery')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-sm sm:text-base shadow-lg shadow-pink-500/25 hover:shadow-xl hover:shadow-pink-500/35 hover:-translate-y-0.5 transition active:scale-95 flex items-center gap-2">
+          <span>Explorar Recuerdos</span>
+          <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </button>
+        <button onclick="openLetterModal()" class="px-6 py-3.5 rounded-2xl bg-white text-slate-700 border border-slate-200 font-bold text-sm sm:text-base shadow-sm hover:bg-slate-50 hover:border-pink-300 transition active:scale-95 flex items-center gap-2">
+          <i data-lucide="heart-handshake" class="w-4 h-4 text-pink-500"></i>
+          <span>Leer Carta Secreta</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- GALERÍA DE RECUERDOS (TARJETAS FLIP) -->
+    <section id="gallery" class="scroll-mt-20">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-800 mb-2 flex items-center justify-center gap-2">
+          <i data-lucide="images" class="w-7 h-7 text-pink-500"></i>
+          <span>Nuestros Recuerdos Inolvidables</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500">Toca o pasa el cursor por las tarjetas para descubrir la historia detrás de cada foto</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="group h-80 perspective-1000 cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+          <div class="card-inner relative w-full h-full duration-700 transform-style-3d transition-transform rounded-3xl shadow-md group-hover:shadow-xl">
+            <!-- Front -->
+            <div class="absolute inset-0 w-full h-full rounded-3xl overflow-hidden bg-white border border-pink-100 backface-hidden flex flex-col">
+              <img src="img/nana1.png" alt="Recuerdo" class="w-full h-52 object-cover">
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div class="flex justify-between items-center">
+                  <span class="text-xs font-bold text-pink-600 bg-pink-50 px-2.5 py-1 rounded-full">✨ Aventuras</span>
+                  <span class="text-xs text-slate-400">Ver más ➔</span>
+                </div>
+                <h3 class="font-bold text-slate-800 text-base">Ese día inolvidable</h3>
+              </div>
+            </div>
+            <!-- Back -->
+            <div class="absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-br from-pink-500 to-purple-600 text-white p-6 rotate-y-180 backface-hidden flex flex-col justify-between">
+              <div>
+                <span class="text-xs uppercase font-extrabold tracking-wider text-pink-200">Recuerdo #1</span>
+                <h3 class="text-xl font-bold mt-1 mb-2">¡Risas Infinitas!</h3>
+                <p class="text-sm text-pink-100 leading-relaxed">
+                  ¿Te acuerdas de cuando no podíamos parar de reírnos por la bobada más grande? Ese día aprendí que contigo todo es mil veces mejor.
+                </p>
+              </div>
+              <div class="font-handwriting text-2xl text-amber-200 text-right">#ComplicidadTotal</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="group h-80 perspective-1000 cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+          <div class="card-inner relative w-full h-full duration-700 transform-style-3d transition-transform rounded-3xl shadow-md group-hover:shadow-xl">
+            <!-- Front -->
+            <div class="absolute inset-0 w-full h-full rounded-3xl overflow-hidden bg-white border border-pink-100 backface-hidden flex flex-col">
+              <img src="img/nana2.png" alt="Recuerdo" class="w-full h-52 object-cover">
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div class="flex justify-between items-center">
+                  <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">☕ Charlas Largas</span>
+                  <span class="text-xs text-slate-400">Ver más ➔</span>
+                </div>
+                <h3 class="font-bold text-slate-800 text-base">Sesiones de Chisme y Café</h3>
+              </div>
+            </div>
+            <!-- Back -->
+            <div class="absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white p-6 rotate-y-180 backface-hidden flex flex-col justify-between">
+              <div>
+                <span class="text-xs uppercase font-extrabold tracking-wider text-purple-200">Recuerdo #2</span>
+                <h3 class="text-xl font-bold mt-1 mb-2">Terapia Gratuita</h3>
+                <p class="text-sm text-purple-100 leading-relaxed">
+                  Las horas se pasan volando cuando arreglamos el mundo con un café en la mano. Gracias por escucharme siempre.
+                </p>
+              </div>
+              <div class="font-handwriting text-2xl text-pink-200 text-right">#MejorTerapéutica</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="group h-80 perspective-1000 cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+          <div class="card-inner relative w-full h-full duration-700 transform-style-3d transition-transform rounded-3xl shadow-md group-hover:shadow-xl">
+            <!-- Front -->
+            <div class="absolute inset-0 w-full h-full rounded-3xl overflow-hidden bg-white border border-pink-100 backface-hidden flex flex-col">
+              <img src="img/nana3.png" alt="Recuerdo" class="w-full h-52 object-cover">
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div class="flex justify-between items-center">
+                  <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">Largas conversaciones</span>
+                  <span class="text-xs text-slate-400">Ver más ➔</span>
+                </div>
+                <h3 class="font-bold text-slate-800 text-base">Noches hablando sin parar</h3>
+              </div>
+            </div>
+            <!-- Back -->
+            <div class="absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-br from-amber-500 to-pink-500 text-white p-6 rotate-y-180 backface-hidden flex flex-col justify-between">
+              <div>
+                <span class="text-xs uppercase font-extrabold tracking-wider text-amber-100">Recuerdo #3</span>
+                <h3 class="text-xl font-bold mt-1 mb-2">Charlas que llenan el alma</h3>
+                <p class="text-sm text-amber-50 leading-relaxed">
+                  Hablar durante horas y arreglar el mundo en llamadas nocturnas. ¡Esos son los momentos que me dan años de vida!
+                </p>
+              </div>
+              <div class="font-handwriting text-2xl text-purple-100 text-right">#DuoDinamico</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- REASON GENERATOR / "COSAS QUE AMO DE TI" -->
+    <section class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-pink-100 shadow-xl relative overflow-hidden">
+      <div class="max-w-xl mx-auto text-center space-y-6">
+        <div class="inline-flex p-3 rounded-2xl bg-pink-100 text-pink-600">
+          <i data-lucide="sparkles" class="w-8 h-8"></i>
+        </div>
+        
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">
+          ¿Por qué eres la mejor amiga del universo?
+        </h2>
+        <p class="text-sm text-slate-500">Haz clic en el botón para descubrir una razón aleatoria de por qué te quiero tanto.</p>
+
+        <div class="min-h-[120px] p-6 rounded-2xl bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 flex items-center justify-center transition-all duration-300 transform" id="reason-container">
+          <p id="reason-text" class="text-slate-700 font-medium text-base sm:text-lg italic">
+            "¡Haz clic abajo para girar la ruleta del cariño! 🌸"
+          </p>
+        </div>
+
+        <button onclick="generateReason()" id="reason-btn" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-pink-500 hover:bg-pink-600 text-white font-bold shadow-lg shadow-pink-500/25 transition active:scale-95 flex items-center justify-center gap-2 mx-auto">
+          <i data-lucide="dices" class="w-5 h-5"></i>
+          <span>Generar Razón Especial</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- REPRODUCTOR DE MÚSICA FUNCIONAL 100% REAL -->
+    <section class="bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
+      
+      <!-- Elemento de Audio Oculto -->
+      <audio id="audio-player" preload="metadata"></audio>
+
+      <div class="flex flex-col md:flex-row items-center gap-6">
+        <!-- Album Art / Portada -->
+        <div class="relative w-32 h-32 sm:w-44 sm:h-44 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 group">
+          <img id="cover-art" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80" alt="Music Cover" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+            <div id="music-disc-icon" class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40">
+              <i data-lucide="disc" class="w-6 h-6 text-pink-300"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Track Info & Controls -->
+        <div class="flex-1 w-full space-y-4">
+          
+          <!-- Encabezado y Selector de canciones -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-pink-400 bg-pink-950/60 border border-pink-800/50 px-2.5 py-0.5 rounded-full">Nuestra Playlist Real 🎵</span>
+              <h3 class="text-xl sm:text-2xl font-extrabold mt-1 text-white line-clamp-1" id="song-title">Cargando canción...</h3>
+              <p class="text-sm text-slate-400" id="song-artist">Artista</p>
+            </div>
+
+            <!-- Menú Desplegable de Canciones -->
+            <div class="mt-2 sm:mt-0">
+              <select id="playlist-select" onchange="changeSongFromSelect(this.value)" class="bg-slate-800 border border-slate-700 text-xs text-pink-200 rounded-xl px-3 py-2 outline-none focus:border-pink-500 w-full sm:w-auto">
+                <!-- Se llena con JS -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Barra de Progreso Interactiva -->
+          <div class="space-y-1">
+            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden cursor-pointer relative group" id="progress-container" onclick="seekAudio(event)">
+              <div id="progress-bar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-full w-0 transition-all duration-100"></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-400 font-mono">
+              <span id="curr-time">00:00</span>
+              <span id="dur-time">00:00</span>
+            </div>
+          </div>
+
+          <!-- Controles del Reproductor -->
+          <div class="flex items-center justify-between sm:justify-start sm:gap-6 pt-1">
+            <button onclick="prevSong()" class="p-2 text-slate-400 hover:text-white transition active:scale-90" title="Anterior">
+              <i data-lucide="skip-back" class="w-6 h-6"></i>
+            </button>
+            <button onclick="togglePlayState()" id="play-btn" class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 text-white flex items-center justify-center shadow-lg shadow-pink-500/30 hover:scale-105 transition active:scale-95" title="Reproducir / Pausar">
+              <i data-lucide="play" class="w-6 h-6 fill-white" id="play-icon"></i>
+            </button>
+            <button onclick="nextSong()" class="p-2 text-slate-400 hover:text-white transition active:scale-90" title="Siguiente">
+              <i data-lucide="skip-forward" class="w-6 h-6"></i>
+            </button>
+            
+            <!-- Control de Volumen -->
+            <div class="hidden sm:flex items-center gap-2 ml-4">
+              <button onclick="toggleMute()" class="text-slate-400 hover:text-pink-400 transition" id="mute-btn">
+                <i data-lucide="volume-2" class="w-4 h-4" id="volume-icon"></i>
+              </button>
+              <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8" oninput="changeVolume(this.value)" class="w-20 accent-pink-500 h-1.5 bg-slate-700 rounded-lg cursor-pointer">
+            </div>
+
+            <!-- Botón para Subir MP3 propio -->
+            <div class="ml-auto">
+              <label for="custom-file-upload" class="cursor-pointer text-xs font-semibold bg-white/10 hover:bg-white/20 text-pink-300 px-3 py-1.5 rounded-full border border-pink-500/30 flex items-center gap-1.5 transition">
+                <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                <span>Subir Tu MP3</span>
+              </label>
+              <input type="file" id="custom-file-upload" accept="audio/*" class="hidden" onchange="handleFileUpload(event)">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FRIENDSHIP TRIVIA QUIZ -->
+    <section class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-purple-100 shadow-xl">
+      <div class="text-center mb-8">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-purple-600 bg-purple-100 px-3 py-1 rounded-full">Test Interactivo</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-2">¿Qué tanto me conoces? 🧠✨</h2>
+        <p class="text-xs sm:text-sm text-slate-500">Responde estas preguntas súper rápidas a ver si apruebas el examen de amistad</p>
+      </div>
+
+      <div class="max-w-2xl mx-auto space-y-6">
+        <!-- Question Item 1 -->
+        <div class="bg-purple-50/50 p-5 rounded-2xl border border-purple-100 space-y-3">
+          <h4 class="font-bold text-slate-800 text-base flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-purple-200 text-purple-700 text-xs flex items-center justify-center font-bold">1</span>
+            ¿Qué es lo primero que hacemos cuando nos pasa un chisme muy grande?
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+            <button onclick="checkAnswer(this, true)" class="quiz-btn p-3 rounded-xl bg-white border border-slate-200 text-left hover:border-purple-300 font-medium transition">
+              Mandarnos 10 audios de 3 minutos 🎙️
+            </button>
+            <button onclick="checkAnswer(this, false)" class="quiz-btn p-3 rounded-xl bg-white border border-slate-200 text-left hover:border-purple-300 font-medium transition">
+              Esperar 3 días para contarlo calmadamente 🧘
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Item 2 -->
+        <div class="bg-purple-50/50 p-5 rounded-2xl border border-purple-100 space-y-3">
+          <h4 class="font-bold text-slate-800 text-base flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-purple-200 text-purple-700 text-xs flex items-center justify-center font-bold">2</span>
+            ¿Cuál es nuestro súper poder como hermanitos?
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+            <button onclick="checkAnswer(this, false)" class="quiz-btn p-3 rounded-xl bg-white border border-slate-200 text-left hover:border-purple-300 font-medium transition">
+              Telepatía solo para elegir qué comer 🍕
+            </button>
+            <button onclick="checkAnswer(this, true)" class="quiz-btn p-3 rounded-xl bg-white border border-slate-200 text-left hover:border-purple-300 font-medium transition">
+              Entendernos solo con mirarnos a los ojos 👀
+            </button>
+          </div>
+        </div>
+
+        <div id="quiz-result" class="hidden text-center p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold animate-bounce">
+          🎉 ¡100% Correcto! Eres oficialmente mi persona favorita en el mundo.
+        </div>
+      </div>
+    </section>
+
+    <!-- HIGH FIVE & LOVE INTERACTION BUTTONS -->
+    <section class="text-center py-6">
+      <div class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-8 sm:p-12 rounded-3xl text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 space-y-4 max-w-lg mx-auto">
+          <h2 class="text-2xl sm:text-4xl font-extrabold">¡Dame un High-Five Virtual! ✋</h2>
+          <p class="text-pink-100 text-sm sm:text-base">Presiona los botones para enviar vibras de cariño instantáneas con lluvia de confeti</p>
+          
+          <div class="flex flex-wrap justify-center gap-4 pt-4">
+            <button onclick="triggerHighFive(event)" class="px-6 py-3 rounded-full bg-white text-pink-600 font-extrabold shadow-lg hover:bg-pink-50 hover:scale-105 active:scale-95 transition flex items-center gap-2 text-sm sm:text-base">
+              <span> Chocar Manos 🖐️</span>
+              <span id="highfive-count" class="bg-pink-100 text-pink-700 text-xs px-2 py-0.5 rounded-full">0</span>
+            </button>
+            <button onclick="triggerLoveBurst(event)" class="px-6 py-3 rounded-full bg-pink-600 border border-pink-400 text-white font-extrabold shadow-lg hover:bg-pink-700 hover:scale-105 active:scale-95 transition flex items-center gap-2 text-sm sm:text-base">
+              <span> Enviar Amor ❤️</span>
+              <span id="love-count" class="bg-pink-800 text-pink-200 text-xs px-2 py-0.5 rounded-full">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-8 text-xs sm:text-sm text-slate-500 border-t border-pink-100 bg-white/50 backdrop-blur-md">
+    <p class="flex items-center justify-center gap-1">
+      Hecho con <i data-lucide="heart" class="w-4 h-4 text-pink-500 fill-pink-500"></i> especialmente para mi mejor amiga. ¡Te quiero de aquí a la luna!
+    </p>
+  </footer>
+
+  <!-- SECRET LETTER MODAL -->
+  <div id="letter-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-pink-100 transform scale-95 transition-transform duration-300 relative max-h-[90vh] overflow-y-auto" id="modal-content">
+      
+      <!-- Close Button -->
+      <button onclick="closeLetterModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-4">
+        <div class="inline-flex p-3 rounded-2xl bg-pink-100 text-pink-600">
+          <i data-lucide="mail-open" class="w-7 h-7"></i>
+        </div>
+        
+        <h3 class="text-2xl font-extrabold text-slate-800">Querida Mejor Amiga ✨</h3>
+        
+        <div class="space-y-3 text-slate-600 text-sm leading-relaxed font-normal border-t border-b border-pink-100 py-4 my-4">
+          <p>
+            Quería escribirte esto para recordarte lo importante que eres en mi vida. A veces la rutina pasa muy rápido y no nos detenemos a decir lo mucho que valoramos a las personas que hacen nuestro mundo más bonito.
+          </p>
+          <p>
+            Gracias por estar en las buenas, en las malas y en las súper absurdas. Gracias por tus consejos, por reírte de mis mismos chistes bobos y por ser ese refugio seguro donde siempre puedo ser yo sin filtros.
+          </p>
+          <p>
+            Espero que nunca olvides lo valiosa, capaz y maravillosa que eres. ¡Estoy tan orgulloso de la persona en la que te has convertido y tan agradecido de caminar a tu lado!
+          </p>
+          <p class="font-handwriting text-2xl text-pink-600 pt-2 text-right">
+            Con todo mi cariño, tu Nonito del alma ❤️
+          </p>
+        </div>
+
+        <button onclick="closeLetterModal(); triggerGlobalConfetti();" class="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold shadow-lg shadow-pink-500/20 hover:brightness-110 transition active:scale-95">
+          ¡Gracias por ser mi amiga! 💕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // ==========================================
+    // 1. REASON GENERATOR
+    // ==========================================
+    const reasons = [
+      "Porque siempre sabes exactamente qué decir cuando necesito un consejo real. ✨",
+      "Porque nuestras risas sin sentido son el mejor remedio para cualquier mal día. 😂",
+      "Porque celebras mis victorias como si fueran tuyas y me apoyas en las malas. 🤝",
+      "Porque podemos estar en silencio sin que sea incómodo. 💖",
+      "Porque guardas mis mejores secretos (y las fotos más vergonzosas) con tu vida. 🤫",
+      "Porque la vida es simplemente 1000 veces más divertida cuando estás cerca. 🌈",
+      "Porque tienes un corazón enorme que ilumina a todos a tu alrededor. 🌟"
+    ];
+
+    let lastReasonIndex = -1;
+
+    function generateReason() {
+      const container = document.getElementById('reason-container');
+      const textElem = document.getElementById('reason-text');
+      
+      container.classList.add('scale-95', 'opacity-50');
+      
+      setTimeout(() => {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * reasons.length);
+        } while (newIndex === lastReasonIndex && reasons.length > 1);
+        
+        lastReasonIndex = newIndex;
+        textElem.textContent = `"${reasons[newIndex]}"`;
+        
+        container.classList.remove('scale-95', 'opacity-50');
+        container.classList.add('scale-105');
+        
+        setTimeout(() => {
+          container.classList.remove('scale-105');
+        }, 200);
+      }, 150);
+    }
+
+    // ==========================================
+    // 2. REPRODUCTOR DE MÚSICA FUNCIONAL REAL
+    // ==========================================
+
+    // AQUÍ AGREGAS O CAMBIAS TUS CANCIONES:
+    let playlist = [
+      {
+        title: "Mujer Amante",
+        artist: "Rata Blanca",
+        cover: "https://i.scdn.co/image/ab67616d0000b273b80d4eba7c68ee5f6bd5d907",
+        src: "songs/cancion1.mp3"
+      },
+      {
+        title: "Angel",
+        artist: "Elefante",
+        cover: "https://i.scdn.co/image/ab67616d0000b273033b8c6b300fb711d4d7b499",
+        src: "songs/cancion2.mp3"
+      },
+      {
+        title: "Stand By Me",
+        artist: "Ben E. King",
+        cover: "https://i.scdn.co/image/ab67616d0000b273557c73b5b1085c827171ec48",
+        src: "songs/cancion3.mp3"
+      }
+    ];
+
+    let currentSongIndex = 0;
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const discIcon = document.getElementById('music-disc-icon');
+    const progressBar = document.getElementById('progress-bar');
+    const currTimeElem = document.getElementById('curr-time');
+    const durTimeElem = document.getElementById('dur-time');
+    const playlistSelect = document.getElementById('playlist-select');
+
+    // Inicializar reproductor
+    function initPlayer() {
+      populatePlaylistDropdown();
+      loadSong(playlist[currentSongIndex]);
+      
+      // Event Listener de progreso de audio
+      audio.addEventListener('timeupdate', updateProgress);
+      audio.addEventListener('ended', nextSong);
+      audio.addEventListener('loadedmetadata', updateDurationDisplay);
+    }
+
+    function populatePlaylistDropdown() {
+      playlistSelect.innerHTML = '';
+      playlist.forEach((song, idx) => {
+        const option = document.createElement('option');
+        option.value = idx;
+        option.textContent = `${idx + 1}. ${song.title}`;
+        playlistSelect.appendChild(option);
+      });
+    }
+
+    function loadSong(song) {
+      document.getElementById('song-title').textContent = song.title;
+      document.getElementById('song-artist').textContent = `Artista: ${song.artist}`;
+      document.getElementById('cover-art').src = song.cover;
+      audio.src = song.src;
+      playlistSelect.value = currentSongIndex;
+    }
+
+    function togglePlayState() {
+      if (audio.paused) {
+        audio.play().then(() => {
+          setPlayUI(true);
+        }).catch(err => {
+          console.log("No se pudo iniciar el audio:", err);
+        });
+      } else {
+        audio.pause();
+        setPlayUI(false);
+      }
+    }
+
+    function setPlayUI(isPlaying) {
+      if (isPlaying) {
+        playIcon.setAttribute('data-lucide', 'pause');
+        discIcon.classList.add('animate-spin');
+        discIcon.style.animationDuration = '6s';
+      } else {
+        playIcon.setAttribute('data-lucide', 'play');
+        discIcon.classList.remove('animate-spin');
+      }
+      lucide.createIcons();
+    }
+
+    function nextSong() {
+      currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      loadSong(playlist[currentSongIndex]);
+      audio.play();
+      setPlayUI(true);
+    }
+
+    function prevSong() {
+      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      loadSong(playlist[currentSongIndex]);
+      audio.play();
+      setPlayUI(true);
+    }
+
+    function changeSongFromSelect(index) {
+      currentSongIndex = parseInt(index);
+      loadSong(playlist[currentSongIndex]);
+      audio.play();
+      setPlayUI(true);
+    }
+
+    function updateProgress() {
+      if (isNaN(audio.duration)) return;
+      const progressPercent = (audio.currentTime / audio.duration) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+      currTimeElem.textContent = formatTime(audio.currentTime);
+    }
+
+    function updateDurationDisplay() {
+      durTimeElem.textContent = formatTime(audio.duration);
+    }
+
+    function seekAudio(e) {
+      const width = document.getElementById('progress-container').clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+      if (!isNaN(duration)) {
+        audio.currentTime = (clickX / width) * duration;
+      }
+    }
+
+    function changeVolume(val) {
+      audio.volume = val;
+      updateVolumeIcon(val);
+    }
+
+    function toggleMute() {
+      audio.muted = !audio.muted;
+      updateVolumeIcon(audio.muted ? 0 : audio.volume);
+    }
+
+    function updateVolumeIcon(vol) {
+      const volIcon = document.getElementById('volume-icon');
+      if (vol == 0 || audio.muted) {
+        volIcon.setAttribute('data-lucide', 'volume-x');
+      } else if (vol < 0.5) {
+        volIcon.setAttribute('data-lucide', 'volume-1');
+      } else {
+        volIcon.setAttribute('data-lucide', 'volume-2');
+      }
+      lucide.createIcons();
+    }
+
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return "00:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // Permite subir un MP3 local desde el computador o celular
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const fileURL = URL.createObjectURL(file);
+        const newSong = {
+          title: file.name.replace(/\.[^/.]+$/, ""),
+          artist: "Archivo Personalizado",
+          cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80",
+          src: fileURL
+        };
+        playlist.unshift(newSong);
+        currentSongIndex = 0;
+        populatePlaylistDropdown();
+        loadSong(playlist[0]);
+        audio.play();
+        setPlayUI(true);
+      }
+    }
+
+    // Inicializar reproductor al cargar
+    initPlayer();
+
+    // ==========================================
+    // 3. QUIZ & OTROS EVENTOS
+    // ==========================================
+    function checkAnswer(button, isCorrect) {
+      const parentContainer = button.parentElement;
+      const buttons = parentContainer.querySelectorAll('.quiz-btn');
+      
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove('hover:border-purple-300');
+      });
+
+      if (isCorrect) {
+        button.classList.add('bg-emerald-100', 'border-emerald-400', 'text-emerald-800');
+        confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } });
+      } else {
+        button.classList.add('bg-rose-100', 'border-rose-400', 'text-rose-800');
+      }
+
+      document.getElementById('quiz-result').classList.remove('hidden');
+    }
+
+    let highFiveCount = 0;
+    let loveCount = 0;
+
+    function triggerHighFive(e) {
+      highFiveCount++;
+      document.getElementById('highfive-count').textContent = highFiveCount;
+      
+      confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 }
+      });
+    }
+
+    function triggerLoveBurst(e) {
+      loveCount++;
+      document.getElementById('love-count').textContent = loveCount;
+      
+      confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 }
+      });
+    }
+
+    function triggerGlobalConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function openLetterModal() {
+      const modal = document.getElementById('letter-modal');
+      const content = document.getElementById('modal-content');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      content.classList.remove('scale-95');
+      content.classList.add('scale-100');
+    }
+
+    function closeLetterModal() {
+      const modal = document.getElementById('letter-modal');
+      const content = document.getElementById('modal-content');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+    }
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
